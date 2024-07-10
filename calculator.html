@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <title>Calculator</title>
+
+    <style>
+        .cabecalho {            
+            width: 50%;
+            margin: auto;
+            margin-top: 10px;
+            text-align: center;
+        }        
+    </style>    
+
+</head>
+<body>
+
+    <div class="cabecalho w3-container w3-border">
+        <h3>Calculadora</h3>
+    </div>
+
+    <br>
+
+    <!-- Corpo -->
+    <div class="w3-container">
+        
+        <!-- Calculadora -->
+        <div class="w3-container w3-border w3-border-black calculator w3-display-middle w3-padding-24">
+            <div class="w3-container w3-center">
+                <input type="text" name="" id="visor" readonly>
+            </div>
+
+            <div class="w3-container w3-center linha1">
+                <br>
+                <button type="button" class="w3-button w3-gray" id="porcentagem"><i class="fa fa-percent"></i></button>                
+                <button type="button" class="w3-button w3-red" id="clear">C</button>
+                <button type="button" class="w3-button w3-red" id="delete" style="width: 100px;"><i class="fa fa-backspace"></i></button>
+            </div>
+
+            <div class="w3-container w3-center linha2">
+                <br>
+                <button type="button" class="w3-button w3-gray" id="sete"><b>7</b></button>
+                <button type="button" class="w3-button w3-gray" id="oito"><b>8</b></button>
+                <button type="button" class="w3-button w3-gray" id="nove"><b>9</b></button>
+                <button type="button" class="w3-button w3-blue" id="soma"><i class="fa fa-plus"></i></button>
+            </div>
+
+            <div class="w3-container w3-center linha3">
+                <br>
+                <button type="button" class="w3-button w3-gray" id="quatro"><b>4</b></button>
+                <button type="button" class="w3-button w3-gray" id="cinco"><b>5</b></button>
+                <button type="button" class="w3-button w3-gray" id="seis"><b>6</b></button>
+                <button type="button" class="w3-button w3-blue" id="subtract"><i class="fa fa-minus"></i></button>
+            </div>
+
+            <div class="w3-container w3-center linha4">
+                <br>
+                <button type="button" class="w3-button w3-gray" id="um"><b>1</b></button>
+                <button type="button" class="w3-button w3-gray" id="dois"><b>2</b></button>
+                <button type="button" class="w3-button w3-gray" id="tres"><b>3</b></button>
+                <button type="button" class="w3-button w3-blue" id="multiplic"><i class="fa fa-times"></i></button>
+            </div>
+
+            <div class="w3-container w3-center linha5">
+                <br>                
+                <button type="button" class="w3-button w3-gray" id="negativar"><b><i class="fa fa-plus-minus"></i></b></button>
+                <button type="button" class="w3-button w3-gray" id="zero"><b>0</b></button>
+                <button type="button" class="w3-button w3-gray" id="decimal"><b>.</b></button>
+                <button type="button" class="w3-button w3-blue" id="divide"><i class="fa fa-divide"></i></button>
+            </div>
+
+            <div class="w3-container w3-center">
+                <br>
+                <button type="button" class="w3-button w3-blue" id="equals" style="width: 200px"><i class="fa fa-equals"></i></button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        //Visor
+        const visor = document.getElementById('visor');
+
+        //Números
+        const um = document.getElementById('um');
+        const dois = document.getElementById('dois');
+        const tres = document.getElementById('tres');
+        const quatro = document.getElementById('quatro');
+        const cinco = document.getElementById('cinco');
+        const seis = document.getElementById('seis');
+        const sete = document.getElementById('sete');
+        const oito = document.getElementById('oito');
+        const nove = document.getElementById('nove');
+        const zero = document.getElementById('zero');
+
+        //Operações
+        const soma = document.getElementById('soma');
+        const subtract = document.getElementById('subtract');
+        const multiplic = document.getElementById('multiplic');
+        const divide = document.getElementById('divide');
+        const porcentagem = document.getElementById('porcentagem');
+        const negativar = document.getElementById('negativar');
+        const decimal = document.getElementById('decimal');
+
+        //Outros
+        const clear = document.getElementById('clear');
+        const equals = document.getElementById('equals');
+        const backspace = document.getElementById('delete');
+
+        //Valores do usuário:
+        let valor = []
+        let operadorAtual = '';
+
+        um.addEventListener('click', function() {
+            visor.value += '1';
+        });
+
+        dois.addEventListener('click', function() {
+            visor.value += '2';
+        });
+
+        tres.addEventListener('click', function() {
+            visor.value += '3';
+        });
+
+        quatro.addEventListener('click', function() {
+            visor.value += '4';
+        });
+
+        cinco.addEventListener('click', function() {
+            visor.value += '5';
+        });
+
+        seis.addEventListener('click', function() {
+            visor.value += '6';
+        });
+
+        sete.addEventListener('click', function() {
+            visor.value += '7';
+        });
+
+        oito.addEventListener('click', function() {
+            visor.value += '8';
+        });
+
+        nove.addEventListener('click', function() {
+            visor.value += '9';
+        });
+
+        zero.addEventListener('click', function() {
+            visor.value += '0';
+        });
+
+        soma.addEventListener('click', function() {
+            // valor.push(visor.value);
+            // visor.value = '+';       
+            // console.log(valor);     
+            if(visor.value !== '+' && visor.value !== '') { // Verifica se o visor não contém apenas o operador
+                valor.push(visor.value); // Adiciona o valor atual ao array
+                operadorAtual = '+'; // Armazena o operador atual
+                visor.value = ''; // Limpa o visor para o próximo número
+            }
+            console.log(valor);
+        });        
+
+        subtract.addEventListener('click', function() {
+            if(visor.value !== '-' && visor.value !== '') {
+                valor.push(visor.value);
+                operadorAtual = '-';
+                visor.value = '';
+            }
+            console.log(valor);
+        });
+
+        multiplic.addEventListener('click', function() {
+            if(visor.value !== '×' && visor.value !== '') {
+                valor.push(visor.value);
+                operadorAtual = '×'; // Alterado de '*' para '×'
+                visor.value = '';
+            }
+            console.log(valor);
+        });
+
+        divide.addEventListener('click', function() {
+            if(visor.value !== '÷' && visor.value !== '') {
+                valor.push(visor.value);
+                operadorAtual = '÷';
+                visor.value = '';
+            }
+            console.log(valor);
+        });
+
+        backspace.addEventListener('click', function() {
+            visor.value = visor.value.slice(0, -1);
+        });
+
+        clear.addEventListener('click', function() {
+            visor.value = "";
+            valor = []; // Limpa o array de valores também
+            operadorAtual = ''; // Reseta o operador atual
+        });
+
+        equals.addEventListener('click', function() {
+            if(valor.length > 1) { // Garante que há pelo menos dois números para operar
+            let resultado = Number(valor[0]); // Inicializa o resultado com o primeiro número
+
+            for(let i = 1; i < valor.length; i++) {
+                switch(operadorAtual) {
+                    case '+':
+                        resultado += Number(valor[i]);
+                        break;
+                    case '-':
+                        resultado -= Number(valor[i]);
+                        break;
+                    case '×':
+                        resultado *= Number(valor[i]);
+                        break;
+                    case '÷':
+                        if(Number(valor[i]) !== 0) { // Evita divisão por zero
+                            resultado /= Number(valor[i]);
+                        } else {
+                            visor.value = 'Erro'; // Mostra erro no visor
+                            return; // Sai da função para evitar mais operações
+                        }
+                        break;
+                }
+            }
+
+            visor.value = resultado; // Mostra o resultado no visor
+            valor = [resultado.toString()]; // Atualiza o array valor com o resultado
+            operadorAtual = ''; // Reseta o operador atual
+        }
+    });
+
+    </script>
+
+</body>
+</html>
