@@ -67,7 +67,7 @@
 
             <div class="w3-container w3-center linha5">
                 <br>                
-                <button type="button" class="w3-button w3-gray" id="negativar"><b><i class="fa fa-plus-minus"></i></b></button>
+                <button type="button" class="w3-button w3-gray" id="negativar"><b>(<i class="fa fa-minus"></i>)</b></button>
                 <button type="button" class="w3-button w3-gray" id="zero"><b>0</b></button>
                 <button type="button" class="w3-button w3-gray" id="decimal"><b>.</b></button>
                 <button type="button" class="w3-button w3-blue" id="divide"><i class="fa fa-divide"></i></button>
@@ -84,10 +84,10 @@
 
     <script>
 
-        //Visor
+        // Visor
         const visor = document.getElementById('visor');
-
-        //Números
+    
+        // Números
         const um = document.getElementById('um');
         const dois = document.getElementById('dois');
         const tres = document.getElementById('tres');
@@ -98,8 +98,8 @@
         const oito = document.getElementById('oito');
         const nove = document.getElementById('nove');
         const zero = document.getElementById('zero');
-
-        //Operações
+    
+        // Operações
         const soma = document.getElementById('soma');
         const subtract = document.getElementById('subtract');
         const multiplic = document.getElementById('multiplic');
@@ -107,138 +107,179 @@
         const porcentagem = document.getElementById('porcentagem');
         const negativar = document.getElementById('negativar');
         const decimal = document.getElementById('decimal');
-
-        //Outros
+    
+        // Outros
         const clear = document.getElementById('clear');
         const equals = document.getElementById('equals');
         const backspace = document.getElementById('delete');
-
-        //Valores do usuário:
-        let valor = []
+        
+        // Estrutura modificada para armazenar números com seus operadores
+        let operacoes = [];
         let operadorAtual = '';
-
+    
         um.addEventListener('click', function() {
             visor.value += '1';
+            console.log('Número 1 pressionado');
         });
-
+    
         dois.addEventListener('click', function() {
             visor.value += '2';
+            console.log('Número 2 pressionado');
         });
-
+    
         tres.addEventListener('click', function() {
             visor.value += '3';
+            console.log('Número 3 pressionado');
         });
-
+    
         quatro.addEventListener('click', function() {
             visor.value += '4';
+            console.log('Número 4 pressionado');
         });
-
+    
         cinco.addEventListener('click', function() {
             visor.value += '5';
+            console.log('Número 5 pressionado');
         });
-
+    
         seis.addEventListener('click', function() {
             visor.value += '6';
+            console.log('Número 6 pressionado');
         });
-
+    
         sete.addEventListener('click', function() {
             visor.value += '7';
+            console.log('Número 7 pressionado');
         });
-
+    
         oito.addEventListener('click', function() {
             visor.value += '8';
+            console.log('Número 8 pressionado');
         });
-
+    
         nove.addEventListener('click', function() {
             visor.value += '9';
+            console.log('Número 9 pressionado');
         });
-
+    
         zero.addEventListener('click', function() {
             visor.value += '0';
+            console.log('Número 0 pressionado');
         });
-
+    
+        decimal.addEventListener('click', function() {
+            if (!visor.value.includes('.')) {
+                visor.value += '.';
+                console.log('Decimal pressionado');
+            }
+        });
+    
+        function handleOperation(selectedOperator) {
+            if (visor.value !== '') {
+                // Adiciona o número atual e o último operador selecionado à lista de operações
+                operacoes.push({ numero: visor.value, operador: operadorAtual });
+                console.log('Número adicionado: ', visor.value);
+                console.log('Operador anterior: ', operadorAtual);
+                // Limpa o visor para a próxima entrada de número
+                visor.value = '';
+                // Atualiza o operador atual para o novo selecionado
+                operadorAtual = selectedOperator;
+                console.log('Operador atualizado: ', operadorAtual);
+            } else if (operacoes.length > 0 && operadorAtual !== '') {
+                // Permite a mudança de operador se o usuário selecionar um novo sem entrar um novo número
+                operadorAtual = selectedOperator;
+                console.log('Operador mudado: ', operadorAtual);
+            }
+        }
+    
         soma.addEventListener('click', function() {
-            // valor.push(visor.value);
-            // visor.value = '+';       
-            // console.log(valor);     
-            if(visor.value !== '+' && visor.value !== '') { // Verifica se o visor não contém apenas o operador
-                valor.push(visor.value); // Adiciona o valor atual ao array
-                operadorAtual = '+'; // Armazena o operador atual
-                visor.value = ''; // Limpa o visor para o próximo número
-            }
-            console.log(valor);
-        });        
-
+            handleOperation('+');
+            console.log('Soma pressionado');
+        });
+    
         subtract.addEventListener('click', function() {
-            if(visor.value !== '-' && visor.value !== '') {
-                valor.push(visor.value);
-                operadorAtual = '-';
-                visor.value = '';
-            }
-            console.log(valor);
+            handleOperation('-');
+            console.log('Subtração pressionado');
         });
-
+    
         multiplic.addEventListener('click', function() {
-            if(visor.value !== '×' && visor.value !== '') {
-                valor.push(visor.value);
-                operadorAtual = '×'; // Alterado de '*' para '×'
-                visor.value = '';
-            }
-            console.log(valor);
+            handleOperation('×');
+            console.log('Multiplicação pressionado');
         });
-
+    
         divide.addEventListener('click', function() {
-            if(visor.value !== '÷' && visor.value !== '') {
-                valor.push(visor.value);
-                operadorAtual = '÷';
-                visor.value = '';
+            handleOperation('÷');
+            console.log('Divisão pressionado');
+        });
+    
+        equals.addEventListener('click', function() {
+            if (visor.value !== '') {
+                operacoes.push({ numero: visor.value, operador: operadorAtual });
+                console.log('Último número adicionado para cálculo: ', visor.value);
+                console.log('Iniciando cálculo...');
+                // Primeiro, calcular multiplicação e divisão
+                for (let i = 0; i < operacoes.length; i++) {
+                    if (operacoes[i].operador === '×' || operacoes[i].operador === '÷') {
+                        const resultado = operacoes[i].operador === '×' ?
+                            parseFloat(operacoes[i - 1].numero) * parseFloat(operacoes[i].numero) :
+                            parseFloat(operacoes[i - 1].numero) / parseFloat(operacoes[i].numero);
+                        console.log(`Resultado ${operacoes[i].operador}: ${resultado}`);
+                        // Atualizar o número resultante na posição anterior
+                        operacoes[i - 1].numero = resultado.toString();
+                        // Remover a operação atual que já foi processada
+                        operacoes.splice(i, 1);
+                        i--; // Ajustar o índice após a remoção
+                    }
+                }
+                // Depois, calcular adição e subtração
+                let resultadoFinal = parseFloat(operacoes[0].numero);
+                for (let i = 1; i < operacoes.length; i++) {
+                    switch (operacoes[i].operador) {
+                        case '+':
+                            resultadoFinal += parseFloat(operacoes[i].numero);
+                            console.log(`Somando: ${resultadoFinal}`);
+                            break;
+                        case '-':
+                            resultadoFinal -= parseFloat(operacoes[i].numero);
+                            console.log(`Subtraindo: ${resultadoFinal}`);
+                            break;
+                    }
+                }
+                visor.value = resultadoFinal;
+                console.log('Resultado final: ', resultadoFinal);
+                operacoes = [];
+                operadorAtual = '';
             }
-            console.log(valor);
+        });
+    
+        porcentagem.addEventListener('click', function() {
+            if (visor.value !== '') {
+                visor.value = (parseFloat(visor.value) / 100).toString();
+                console.log('Porcentagem aplicada: ', visor.value);
+            }
         });
 
-        backspace.addEventListener('click', function() {
-            visor.value = visor.value.slice(0, -1);
+        negativar.addEventListener('click', function() {
+            if (visor.value !== '') {
+                visor.value = (parseFloat(visor.value) * -1).toString();
+                console.log('Valor negativado: ', visor.value);
+            }
         });
 
         clear.addEventListener('click', function() {
             visor.value = "";
-            valor = []; // Limpa o array de valores também
-            operadorAtual = ''; // Reseta o operador atual
+            operacoes = [];
+            operadorAtual = '';
+            console.log('Visor limpo');
         });
-
-        equals.addEventListener('click', function() {
-            if(valor.length > 1) { // Garante que há pelo menos dois números para operar
-            let resultado = Number(valor[0]); // Inicializa o resultado com o primeiro número
-
-            for(let i = 1; i < valor.length; i++) {
-                switch(operadorAtual) {
-                    case '+':
-                        resultado += Number(valor[i]);
-                        break;
-                    case '-':
-                        resultado -= Number(valor[i]);
-                        break;
-                    case '×':
-                        resultado *= Number(valor[i]);
-                        break;
-                    case '÷':
-                        if(Number(valor[i]) !== 0) { // Evita divisão por zero
-                            resultado /= Number(valor[i]);
-                        } else {
-                            visor.value = 'Erro'; // Mostra erro no visor
-                            return; // Sai da função para evitar mais operações
-                        }
-                        break;
-                }
-            }
-
-            visor.value = resultado; // Mostra o resultado no visor
-            valor = [resultado.toString()]; // Atualiza o array valor com o resultado
-            operadorAtual = ''; // Reseta o operador atual
-        }
-    });
-
+    
+        backspace.addEventListener('click', function() {
+            visor.value = visor.value.slice(0, -1);
+            console.log('Backspace pressionado');
+        });
+    
     </script>
+    
 
 </body>
 </html>
